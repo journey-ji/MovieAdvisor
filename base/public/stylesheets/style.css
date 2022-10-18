@@ -1,0 +1,60 @@
+header {
+  display: flex;
+  align-items: center;
+  
+  background: transparent;
+  
+}
+header h1 {
+  padding-left: 35px;
+}
+.nav-bar {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 70px;
+  align-items: center;
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0));
+  color: #ddddff;
+  
+
+}
+body {
+  background-image: url('../images/bg.jpg');
+}
+.wrap {
+  
+  width: 100vw;
+  height: 1020px;
+  background-color: aquamarine;
+  
+}
+
+ .wrap .cont-hero img {
+  display: block;
+  width: 100%;
+  background-size: cover;
+ }
+
+.cont-movies {
+  width: 100vw;
+  height: auto;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: white;
+
+}
+.cont-movies ul {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 15px;
+}
+.cont-movies ul .item-movie {
+  
+}
+.cont-movies ul .item-movie img{
+  width: 180px;
+  cursor: pointer;
+}

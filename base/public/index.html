@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화추천 시스템</title>
+    <link rel="stylesheet" href="./stylesheets/reset.css">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+    
+</head>
+<body>
+    <header>
+        <nav class="nav-bar">
+            <h1>Movie Advisor</h1>
+        </nav>
+    </header>
+    <main>
+        <div class="wrap">
+            <div class="cont-hero">
+                <img src="./images/hero-bg.jpg" alt="">
+            </div>
+            <div class="cont-movies">
+                <ul>
+                    <li class="item-movie">
+                        <img id="img1" src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./images/sample1.jpg" alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        
+    </script>
+    <script src="./tmdb/themoviedb.js">
+        const temp = [];
+        let img_url = 'https://api.themoviedb.org/3/movie/94997/images?api_key=3978573dbb0bb023a5f7c9fbb4d079aa'
+        alert(theMovieDb.movies.getImages({"id":94997 }, successCB, errorCB))
+    </script>
+    
+</body>
+</html>

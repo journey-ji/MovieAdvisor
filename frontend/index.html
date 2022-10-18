@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화추천 시스템</title>
+    <link rel="stylesheet" href="./static/css/reset.css">
+    <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="nav-bar">
+            <h1>Movie Advisor</h1>
+        </nav>
+    </header>
+    <main>
+        <div class="wrap">
+            <div class="cont-hero">
+                <img src="./static/img/hero-bg.jpg" alt="">
+            </div>
+            <div class="cont-movies">
+                <ul>
+                    <li class="item-movie">
+                        <img src="./static/img/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie">
+                        <img src="./static/img/sample1.jpg" alt="">
+                    </li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        const promise = fetch("http://localhost:3000/movie")
+        .then(response => console.log(response));
+
+    </script>
+    <!--<script src="./tmdb/themoviedb.js"></script>!-->
+</body>
+</html>
