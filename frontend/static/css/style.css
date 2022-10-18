@@ -21,13 +21,13 @@ header h1 {
 
 }
 body {
-  background-image: url('./img/bg.jpg');
+  background-image: url('../img/bg.jpg')
+  
 }
 .wrap {
   
   width: 100vw;
   height: 1020px;
-  background-color: aquamarine;
   
 }
 
@@ -42,7 +42,6 @@ body {
   height: auto;
   margin: 0 auto;
   padding: 30px;
-  background-color: white;
 
 }
 .cont-movies ul {

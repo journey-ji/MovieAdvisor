@@ -2,20 +2,21 @@ import enum
 import pandas as pd
 import numpy as np
 import sys
+import json
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
-
+## 데이터 불러오기
 df1 = pd.read_csv('../data/tmdb_5000_credits.csv')
 df2 = pd.read_csv('../data/tmdb_5000_movies.csv')
 
 
-
+## 데이터 병합
 df1.columns = ['id','title','cast','crew']
 df2 = df2.merge(df1[['id','cast','crew']],on='id')
 
 
-
+## 평점 가중치 계산
 C = df2['vote_average'].mean()
 m = df2['vote_count'].quantile(0.9)
 def weightedRating(x,m=m,C=C):
@@ -26,6 +27,9 @@ def weightedRating(x,m=m,C=C):
 q_movies = df2.copy().loc[df2['vote_count']>=m]
 q_movies['score'] = q_movies.apply(weightedRating,axis=1)
 q_movies = q_movies.sort_values('score',ascending=False)
+
+
+
 
 
 ### 텍스트(컨텐츠) 분석하기
@@ -48,11 +52,12 @@ def get_recommendation(title,cosine_sim = cosine_sim):
   sim_scores = sim_scores[1:11]
 
   movie_indicies = [i[0] for i in sim_scores]
-  return df2['title'].iloc[movie_indicies]
+  return df2[['id','title']].iloc[movie_indicies]
 
 
 if __name__ == '__main__':
-    print(get_recommendation('Up'))
+    print(get_recommendation('Apollo 18'))
+    
 
 
 
@@ -61,6 +66,6 @@ if __name__ == '__main__':
 # 2. 선호도가 가중된다 = 특정 사용자의 개인화된 데이터가 많아진다.
 # 2. 결국 콘텐츠기반의 필터링에서 선호도 = 코사인 유사도
 # 3. 코사인 유사도에 영향을 줄 리스트의 개수를 제한하기 + 다른 타입의 영화를 같이 추천하기(1~20%)
-# 4. 그러면 3번에서의 리스트를 어떻게 유지시킬 것이냐
+# 4. 단순하게 밀어내기 
 # 5. 
-# 6. 
+# 6.  

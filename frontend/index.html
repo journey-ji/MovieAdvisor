@@ -22,29 +22,64 @@
             <div class="cont-movies">
                 <ul>
                     <li class="item-movie">
-                        <img src="./static/img/sample1.jpg" alt="">
+                        <img id="img1" src="./static/img/sample1.jpg" alt="">
                     </li>
                     <li class="item-movie">
-                        <img src="./static/img/sample1.jpg" alt="">
+                        <img id="img2" src="./static/img/sample1.jpg" alt="">
                     </li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
-                    <li class="item-movie"><img src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img3" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img4" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img5" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img6" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img7" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img8" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img9" src="./static/img/sample1.jpg" alt=""></li>
+                    <li class="item-movie"><img id="img10" src="./static/img/sample1.jpg" alt=""></li>
                 </ul>
             </div>
         </div>
     </main>
     <footer></footer>
     <script>
-        const promise = fetch("http://localhost:3000/movie")
-        .then(response => console.log(response));
 
+        const API = '3978573dbb0bb023a5f7c9fbb4d079aa';
+        let posterPath='';
+        let movieId = 19995
+
+        const imageURL = `https://image.tmdb.org/t/p/original/${posterPath}`
+        let movieURL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API}&language=ko`
+
+
+        let avatar = 'https://image.tmdb.org/t/p/original/gC3tW9a45RGOzzSh6wv91pFnmFr.jpg'
+
+
+
+        // 파이썬 데이터 받아오기
+        const promise = fetch("http://localhost:3000/test")
+        .then(response => response.json())
+        .then(response => {
+            // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
+            let temp = response.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
+            temp.forEach((e,idx,arr) => {
+                arr[idx] = e.replace(' ',',').split(',')
+                arr[idx][1] = arr[idx][1].trim()
+                arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                arr[idx][1] = arr[idx][1].trim()
+            });
+            console.log(temp)
+            
+            
+            // 10개 영화 포스터 입력
+            for(let i=0; i<10;i++){
+                fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                .then(response=>response.json())
+                .then(response=>{
+                    document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                })
+            }
+        })
+        
     </script>
-    <!--<script src="./tmdb/themoviedb.js"></script>!-->
+    
 </body>
 </html>
