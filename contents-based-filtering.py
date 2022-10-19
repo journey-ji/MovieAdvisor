@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import sys
 import json
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 ## 데이터 불러오기
@@ -34,29 +34,41 @@ q_movies = q_movies.sort_values('score',ascending=False)
 
 ### 텍스트(컨텐츠) 분석하기
 tfidf = TfidfVectorizer(stop_words='english')
+
 df2['overview'] =df2['overview'].fillna('')
 tfidf_matrix = tfidf.fit_transform(df2['overview'])
 
-
 ### 코사인 유사도 적용하기
-
 cosine_sim = linear_kernel(tfidf_matrix,tfidf_matrix)
 indices = pd.Series(df2.index,index=df2['title']).drop_duplicates()
 
+
+### 이건, 하나의 데이터 줄로도 여러개 영화에 대입 가능하다는 의미
+cosine_sim_ex = linear_kernel(tfidf_matrix[0],tfidf_matrix)
+idx = indices['Avatar']
+sim_score = list(enumerate(cosine_sim_ex[0]))
+sim_score = sorted(sim_score,key=lambda x:x[1],reverse=True)
+sim_score = sim_score[1:11]
+movie_indicies = [i[0] for i in sim_score]
+print('This')
+print(df2[['id','title']].iloc[movie_indicies])
+print('That')
+###
 
 def get_recommendation(title,cosine_sim = cosine_sim):
   idx = indices[title]
   sim_scores = list(enumerate(cosine_sim[idx]))
 
+  
   sim_scores = sorted(sim_scores,key=lambda x:x[1],reverse=True)
   sim_scores = sim_scores[1:11]
-
+  
   movie_indicies = [i[0] for i in sim_scores]
   return df2[['id','title']].iloc[movie_indicies]
 
 
 if __name__ == '__main__':
-    print(get_recommendation('Apollo 18'))
+    print(get_recommendation('Avatar'))
     
 
 
