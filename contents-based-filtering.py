@@ -27,10 +27,7 @@ def weightedRating(x,m=m,C=C):
 q_movies = df2.copy().loc[df2['vote_count']>=m]
 q_movies['score'] = q_movies.apply(weightedRating,axis=1)
 q_movies = q_movies.sort_values('score',ascending=False)
-
-
-
-
+randomList = random.sample(q_movies,10)
 
 ### 텍스트(컨텐츠) 분석하기
 tfidf = TfidfVectorizer(stop_words='english')
@@ -50,9 +47,9 @@ sim_score = list(enumerate(cosine_sim_ex[0]))
 sim_score = sorted(sim_score,key=lambda x:x[1],reverse=True)
 sim_score = sim_score[1:11]
 movie_indicies = [i[0] for i in sim_score]
-print('This')
-print(df2[['id','title']].iloc[movie_indicies])
-print('That')
+##print('This')
+##print(df2[['id','title']].iloc[movie_indicies])
+##print('That')
 ###
 
 def get_recommendation(title,cosine_sim = cosine_sim):
@@ -68,7 +65,7 @@ def get_recommendation(title,cosine_sim = cosine_sim):
 
 
 if __name__ == '__main__':
-    print(get_recommendation('Avatar'))
+    print(get_recommendation('Up'))
     
 
 
