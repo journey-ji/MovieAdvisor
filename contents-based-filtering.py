@@ -27,7 +27,8 @@ def weightedRating(x,m=m,C=C):
 q_movies = df2.copy().loc[df2['vote_count']>=m]
 q_movies['score'] = q_movies.apply(weightedRating,axis=1)
 q_movies = q_movies.sort_values('score',ascending=False)
-randomList = random.sample(q_movies,10)
+
+
 
 ### 텍스트(컨텐츠) 분석하기
 tfidf = TfidfVectorizer(stop_words='english')
