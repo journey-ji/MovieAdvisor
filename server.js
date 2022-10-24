@@ -35,13 +35,9 @@ mongoose.connect(
 
 
 
-
-
-
-
 app.get('/test',(req,res)=>{
   let dataToSend;
-  const python = spawn('python3', ['contents-based-filtering.py']);
+  const python = spawn('python3', ['contents-based-filtering.py','Spider-Man 3']);
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
@@ -53,35 +49,39 @@ app.get('/test',(req,res)=>{
   })
 })
 
-
 app.get('/*',(req,res)=>{
   res.sendFile(path.resolve('frontend','index.html'))
 })
 
-
-
 app.listen(process.env.PORT || 3000, ()=>console.log(`Server running on 3000`))
 
 let movieList =[]
-app.post('/test', function(req, res) {
+app.post('/test',async function(req, res) {
   var name = req.body.name;
   var price = req.body.price;
-  movieList.push(req.body.movieId)
-  console.log("Is send it?");
-  console.log(name + " " + price);
-  res.status(200).json({1: name, 2:price,3:movieList})
+  movieList.push(parseInt(req.body.movieId))
+  
+
+
+  // 아래의 코드에서 비동기 흐름 파악하기
+  let dataToSend
+  const python = await spawn('python3',['contents-based-filtering2.py',movieList])
+  await python.stdout.on('data',(data)=>{
+    dataToSend = data.toString()
+    testData = dataToSend
+    console.log(movieList)
+  })
+  await python.on('close', async (code) => {
+    console.log(dataToSend)
+    await res.json(dataToSend);
+  })
+  // console.log("Is send it?");
+  // console.log(name + " " + price);
+  // res.status(200).json({1: name, 2:price,3:movieList})
 })
-
-
 exports.testData
 
 
 
 // 진행사항
-// 
-// 1. 콘텐츠기반 필터링에 선호항목 추가하고 이를 바탕으로 코사인 유사도 구하기
-// 2. 포스터 누르면 해당 영화를 서버로 넘겨서 파이썬의 선호항목에 추가하기
-// 3. 
-// 
-// 
 // 

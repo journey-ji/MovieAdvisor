@@ -66,7 +66,7 @@ def get_recommendation(title,cosine_sim = cosine_sim):
 
 
 if __name__ == '__main__':
-    print(get_recommendation('Up'))
+    print(get_recommendation(sys.argv[1]))
     
 
 

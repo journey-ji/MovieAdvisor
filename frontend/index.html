@@ -38,7 +38,6 @@
     <footer></footer>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script>
-
         const API = '3978573dbb0bb023a5f7c9fbb4d079aa';
         let posterPath='';
         let movieId = 19995
@@ -47,76 +46,124 @@
         let movieURL = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API}&language=ko`
         let avatar = 'https://image.tmdb.org/t/p/original/gC3tW9a45RGOzzSh6wv91pFnmFr.jpg'
         let movieList = {
-            img1 :'',
-            img2 :'',
-            img3 :'',
-            img4 :'',
-            img5 :'',
-            img6 :'',
-            img7 :'',
-            img8 :'',
-            img9 :'',
-            img10 :'',
+            img1 :null,
+            img2 :null,
+            img3 :null,
+            img4 :null,
+            img5 :null,
+            img6 :null,
+            img7 :null,
+            img8 :null,
+            img9 :null,
+            img10 :null,
         }
 
+        function data_fetch(data) {
+            // 1. 처음 페이지 로드할 때,
+            // 2. 이미지 눌러서 데이터 받아왔을 때
 
-        // 초기 파이썬 데이터 받아오기
-        const promise = fetch("http://localhost:3000/test")
-        .then(response => response.json())
-        .then(response => {
-            // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
-            let temp = response.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
-            temp.forEach((e,idx,arr) => {
-                arr[idx] = e.replace(' ',',').split(',')
-                arr[idx][1] = arr[idx][1].trim()
-                arr[idx] = arr[idx][1].replace(' ',',').split(',')
-                arr[idx][1] = arr[idx][1].trim()
-            });
-            console.log(temp)
-            
-            
-            // 10개 영화 포스터 입력 
-            // 음,,, 저장할 목록 : imagepath, 
-            for(let i=0; i<10;i++){
+            // 초기 파이썬 데이터 받아오기
+            if(data==='first-page-load'){
+                fetch("http://localhost:3000/test")
+                .then(response => response.json())
+                .then(response => {
+                    // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
+                    let temp = response.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
+                    temp.forEach((e,idx,arr) => {
+                        arr[idx] = e.replace(' ',',').split(',')
+                        arr[idx][1] = arr[idx][1].trim()
+                        arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                        arr[idx][1] = arr[idx][1].trim()
+                        arr[idx][0] = parseInt(arr[idx][0])
+                    });
+                    console.log(temp)
+                    
+                    
+                    // 10개 영화 포스터 입력 함수화하기
+                    // 음,,, 저장할 목록 : imagepath, 
+                    for(let i=0; i<10;i++){
+                        // 클라이언트의 영화목록에 movieId 저장
+                        movieList[`img${i+1}`] = parseInt(temp[i][0])
+                        fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                        .then(response=>response.json())
+                        .then(response=>{
+                            document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                        })
+                    }
+                    
+                })
+            }else{
+                let temp = data.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
+                temp.forEach((e,idx,arr) => {
+                    arr[idx] = e.replace(' ',',').split(',')
+                    arr[idx][1] = arr[idx][1].trim()
+                    arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                    arr[idx][1] = arr[idx][1].trim()
+                    arr[idx][0] = parseInt(arr[idx][0])
+                });
+                console.log(temp)
+                for(let i=0; i<10;i++){
                 // 클라이언트의 영화목록에 movieId 저장
-                movieList[`img${i+1}`] = temp[i][0]
+                movieList[`img${i+1}`] = parseInt(temp[i][0])
                 fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
                 .then(response=>response.json())
                 .then(response=>{
                     document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
                 })
+                }
             }
-            
-        })
+        }
+        
         
 
 
         // 10개의 이미지에 대하여 클릭시 이벤트 설정
-        for(let i=1; i<=10;i++){
-            $(function(){
-                $(`#img${i}`).click(function(){   //submit 버튼을 클릭하였을 때
-                    $.ajax({
-                        type:'post',   //post 방식으로 전송
-                        url:'/test',   //데이터를 주고받을 파일 주소
-                        data: {
-                            name : `${i}번째 아이템`,
-                            price : "12,500",
-                            movieId : movieList[`img${i}`],
-                        },
-                        dataType:'json',   //json 파일 형식으로 값을 담아온다.
-                        success : function(data){   //파일 주고받기가 성공했을 경우
-                            console.log(data);
-                        },
-                        error : function(err) {     // 실패 시
-                            console.log("failed : " + err);
-                        }
+        // 이미지 클릭하면, 동작되어야 할 일
+        // 1. 해당 이미지에 대한 데이터 전송 ㅇㅋ 
+        // 2. 서버에서 데이터 받아서, 선호리스트에 데이터 저장 후, ㅇㅋ 
+        // 3. 파이썬에 해당 선호리스트 보내서 다시 10개의 영화 추천 ㅇㅋ
+        // 4. 추천된 10개의 영화에 대한 데이터를 다시 클라이언트에게 보내줌 localhost:3000/test로
+        function imageClick_set(){
+            for(let i=1; i<=10;i++){
+                $(function(){
+                    $(`#img${i}`).click(function(){   //submit 버튼을 클릭하였을 때
+                        $.ajax({
+                            type:'post',   //post 방식으로 전송
+                            url:'/test',   //데이터를 주고받을 파일 주소
+                            data: {
+                                name : `${i}번째 아이템`,
+                                movieId : parseInt(movieList[`img${i}`]),
+                            },
+                            dataType:'json',   //json 파일 형식으로 값을 담아온다.
+                            success : function(data){   //파일 주고받기가 성공했을 경우
+                                data_fetch(data)
+                            },
+                            error : function(err) {     // 실패 시
+                                console.log("failed : " + err);
+                            }
+                        });
                     });
                 });
-            });
+            }
         }
-        
 
+        data_fetch('first-page-load')
+        imageClick_set()
+        // 아,,, 일단, 페이지만들때는 fetch로 가져오고
+        // imgageClick_set을 서버에서 데이터 받으면 그 데이터를 기반으로 다시 해줘야 해
     </script>
     
 </body>
 </html>
+<!-- 
+159      557                Spider-Man
+30       558              Spider-Man 2
+1534    6488             Arachnophobia
+20      1930    The Amazing Spider-Man
+38    102382  The Amazing Spider-Man 2
+1318    1091                 The Thing
+4664   18533                   Bronson
+3610   14834         Not Easily Broken
+4456   25461     Raising Victor Vargas
+4276   42033                 Def-Con 4 -->
+

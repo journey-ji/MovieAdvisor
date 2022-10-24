@@ -40,21 +40,8 @@ cosine_sim = linear_kernel(tfidf_matrix,tfidf_matrix)
 indices = pd.Series(df2.index,index=df2['title']).drop_duplicates()
 
 
-## movieList의 줄거리를 전부 연결하고, 그에 대한 유사도 구하기
-temp = df2['overview'].copy()
-movieList = [19995,285,206647,49026,49529,559,38757,99861,767,209112]
-total_overview = ''
-for x in movieList:
-  total_overview += str(df2['overview'].loc[df2['id']==x])
-temp[temp.size-1] = total_overview ## temp의 마지막에 total_overview 추가
 
-total_matrix = tfidf.fit_transform(temp)
-total_sim = linear_kernel(total_matrix[temp.size-1],total_matrix)
-total_score = list(enumerate(total_sim[0]))
-total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
-total_score = total_score[1:11]
-movie_indicies = [i[0] for i in total_score]
-print(df2[['id','title']].iloc[movie_indicies])
+
 
 
 ### 아래 문단은 하나의 데이터 줄로도 여러개 영화에 대입 가능하다는 의미
@@ -70,8 +57,8 @@ movie_indicies = [i[0] for i in sim_score]
 ###
 
 def get_recommendation(title,cosine_sim = cosine_sim):
-  idx = indices[title]
-  sim_scores = list(enumerate(cosine_sim[idx]))
+  idx = indices[title] # 인덱스 번호를 찾아서
+  sim_scores = list(enumerate(cosine_sim[idx])) # 
 
   
   sim_scores = sorted(sim_scores,key=lambda x:x[1],reverse=True)
@@ -80,9 +67,27 @@ def get_recommendation(title,cosine_sim = cosine_sim):
   movie_indicies = [i[0] for i in sim_scores]
   return df2[['id','title']].iloc[movie_indicies]
 
+def get_recommendation2(movieList,cosine_sim=cosine_sim):
+  # 1. 리스트에 존재하는 모든 영화의 overview를 이어붙이기
+  # 2. 1번에서 완성한 변수를 dataFrame의 마지막에 삽입하기
+  # 3. dataFrame 을 벡터화하기
+  # 4. 벡터화한 dataFrame 에서 유사도 구하기
+  temp = df2['overview'].copy()
+  total_overview = ''
+  for x in movieList:
+    total_overview += str(df2['overview'].loc[df2['id']==x])
+  temp[temp.size-1] = total_overview ## temp의 마지막에 total_overview 추가
 
+  total_matrix = tfidf.fit_transform(temp)
+  total_sim = linear_kernel(total_matrix[temp.size-1],total_matrix)
+  total_score = list(enumerate(total_sim[0]))
+  total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
+  total_score = total_score[1:11]
+  movie_indicies = [i[0] for i in total_score]
+  print(df2[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
-  print('hi')
+  movieList = [19995,285,206647,49026,49529,559,38757,99861,767,209112]
+  get_recommendation2(sys.argv[1])
 # 선호도를 찾을 방법,
 # 1. 필터버블이라는게 개인의 선호도가 가중됨에 따라 편향적으로 나타나는 것!
 # 2. 선호도가 가중된다 = 특정 사용자의 개인화된 데이터가 많아진다.
