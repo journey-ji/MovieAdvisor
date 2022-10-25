@@ -72,6 +72,7 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   # 2. 1번에서 완성한 변수를 dataFrame의 마지막에 삽입하기
   # 3. dataFrame 을 벡터화하기
   # 4. 벡터화한 dataFrame 에서 유사도 구하기
+  
   temp = df2['overview'].copy()
   total_overview = ''
   for x in movieList:
@@ -86,11 +87,16 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   movie_indicies = [i[0] for i in total_score]
   print(df2[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
-  movieList = [19995,285,206647,49026,49529,559,38757,99861,767,209112]
   get_recommendation2(sys.argv[1])
+  print(sys.argv[1])
 # 선호도를 찾을 방법,
 # 1. 필터버블이라는게 개인의 선호도가 가중됨에 따라 편향적으로 나타나는 것!
 # 2. 선호도가 가중된다 = 특정 사용자의 개인화된 데이터가 많아진다.
 # 2. 결국 콘텐츠기반의 필터링에서 선호도 = 코사인 유사도
 # 3. 코사인 유사도에 영향을 줄 리스트의 개수를 제한하기 + 다른 타입의 영화를 같이 추천하기(1~20%)
 # 4. 단순하게 밀어내기 
+
+
+
+
+# !!!!!!!!!!!!!!!!! sys.agrv[1]이 문자열로 입력된다 -> 리스트로 바꿔줘야함

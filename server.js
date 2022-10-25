@@ -55,25 +55,26 @@ app.get('/*',(req,res)=>{
 
 app.listen(process.env.PORT || 3000, ()=>console.log(`Server running on 3000`))
 
+
+
 let movieList =[]
-app.post('/test',async function(req, res) {
+app.post('/test', async function(req, res) {
   var name = req.body.name;
   var price = req.body.price;
   movieList.push(parseInt(req.body.movieId))
-  
+  console.log(movieList)
 
 
   // 아래의 코드에서 비동기 흐름 파악하기
   let dataToSend
-  const python = await spawn('python3',['contents-based-filtering2.py',movieList])
-  await python.stdout.on('data',(data)=>{
+  const python =  await spawn('python3',['contents-based-filtering2.py',movieList])
+  python.stdout.on('data',(data)=>{
     dataToSend = data.toString()
-    testData = dataToSend
-    console.log(movieList)
-  })
-  await python.on('close', async (code) => {
     console.log(dataToSend)
-    await res.json(dataToSend);
+    testData = dataToSend
+  })
+  python.on('close',  (code) => {
+    res.json(dataToSend);
   })
   // console.log("Is send it?");
   // console.log(name + " " + price);
