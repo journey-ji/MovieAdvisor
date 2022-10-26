@@ -123,6 +123,7 @@
         // 2. 서버에서 데이터 받아서, 선호리스트에 데이터 저장 후, ㅇㅋ 
         // 3. 파이썬에 해당 선호리스트 보내서 다시 10개의 영화 추천 ㅇㅋ
         // 4. 추천된 10개의 영화에 대한 데이터를 다시 클라이언트에게 보내줌 localhost:3000/test로
+        // 10월 24일 이미지클릭 이벤트 구현 완료
         function imageClick_set(){
             for(let i=1; i<=10;i++){
                 $(function(){
@@ -149,21 +150,7 @@
 
         data_fetch('first-page-load')
         imageClick_set()
-        // 아,,, 일단, 페이지만들때는 fetch로 가져오고
-        // imgageClick_set을 서버에서 데이터 받으면 그 데이터를 기반으로 다시 해줘야 해
     </script>
     
 </body>
 </html>
-<!-- 
-159      557                Spider-Man
-30       558              Spider-Man 2
-1534    6488             Arachnophobia
-20      1930    The Amazing Spider-Man
-38    102382  The Amazing Spider-Man 2
-1318    1091                 The Thing
-4664   18533                   Bronson
-3610   14834         Not Easily Broken
-4456   25461     Raising Victor Vargas
-4276   42033                 Def-Con 4 -->
-

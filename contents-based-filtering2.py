@@ -51,47 +51,52 @@ sim_score = list(enumerate(cosine_sim_ex[0]))
 sim_score = sorted(sim_score,key=lambda x:x[1],reverse=True)
 sim_score = sim_score[1:11]
 movie_indicies = [i[0] for i in sim_score]
-##print('This')
-##print(df2[['id','title']].iloc[movie_indicies])
-##print('That')
-###
 
-def get_recommendation(title,cosine_sim = cosine_sim):
-  idx = indices[title] # 인덱스 번호를 찾아서
-  sim_scores = list(enumerate(cosine_sim[idx])) # 
 
-  
-  sim_scores = sorted(sim_scores,key=lambda x:x[1],reverse=True)
-  sim_scores = sim_scores[1:11]
-  
-  movie_indicies = [i[0] for i in sim_scores]
-  return df2[['id','title']].iloc[movie_indicies]
+
+
+### 평점 가중치 구하기
+C = df2['vote_average'].mean()
+m = df2['vote_count'].quantile(0.9) ## 상위 10%에 해당하는 평가수를 가진 영화만 검색
+q_movies = df2.copy().loc[df2['vote_count']>=m]
+
+def weighted_rating(x,m=m,C=C):
+  v = x['vote_count']
+  R = x['vote_average']
+  return (v/(v+m)*R) + (m/(v+m)*C)
+
+## 평점가중치가 적용된 영화리스트 ! (상위 10% 이상의 추천수를 받은 영화만 가지고 있음)
+q_movies['score'] = q_movies.apply(weighted_rating,axis=1)
+
 
 def get_recommendation2(movieList,cosine_sim=cosine_sim):
-  # 1. 리스트에 존재하는 모든 영화의 overview를 이어붙이기
-  # 2. 1번에서 완성한 변수를 dataFrame의 마지막에 삽입하기
-  # 3. dataFrame 을 벡터화하기
-  # 4. 벡터화한 dataFrame 에서 유사도 구하기
+  ## 입력된 문자열을 리스트로 변환
   if(type(movieList)==str):
     movieList = movieList.split(',')
   movieList = list(map(int, movieList))
 
+  ## 추천리스트의 모든 영화에 대한 줄거리를 하나의 문자열로 만들기
   temp = df2['overview'].copy()
   total_overview = ''
   for x in movieList:
     total_overview += str(df2['overview'].loc[df2['id']==x])
   temp[temp.size-1] = total_overview ## temp의 마지막에 total_overview 추가
 
+  # 영화 줄거리에 대한 벡터값 구하기
   total_matrix = tfidf.fit_transform(temp)
+  
+  # 벡터값에 대한 코사인 유사도 구하고 내림차순 정렬
   total_sim = linear_kernel(total_matrix[temp.size-1],total_matrix)
   total_score = list(enumerate(total_sim[0]))
   total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
   total_score = total_score[1:11]
+  print(total_score[1])
   movie_indicies = [i[0] for i in total_score]
   print(df2[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
 
-  get_recommendation2(sys.argv[1])
+  get_recommendation2([19995])
+
 # 선호도를 찾을 방법,
 # 1. 필터버블이라는게 개인의 선호도가 가중됨에 따라 편향적으로 나타나는 것!
 # 2. 선호도가 가중된다 = 특정 사용자의 개인화된 데이터가 많아진다.
@@ -102,4 +107,8 @@ if __name__ == '__main__':
 
 
 
-# !!!!!!!!!!!!!!!!! sys.agrv[1]이 문자열로 입력된다 -> 리스트로 바꿔줘야함
+# !!!!!!!!!!!!!!!!! sys.agrv[1]이 문자열로 입력된다 -> 리스트로 바꿔줘야함 10/26일 바꿔주기 완료
+
+# 평점가중치 적용하여, 특정 평점 이상의 영화만 추천하도록 바꾸기
+# 10개의 추천영화중 8개만 최상위 유사도 순으로 추천, 나머지 2개는 하위 유사도를 가진 영화를 추천해주기
+# 
