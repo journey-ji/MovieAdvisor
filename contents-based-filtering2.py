@@ -90,8 +90,9 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   total_score = list(enumerate(total_sim[0]))
   total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
   total_score = total_score[1:11]
-  print(total_score[1])
+  
   movie_indicies = [i[0] for i in total_score]
+  print(total_score[1])
   print(df2[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
 
