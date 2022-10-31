@@ -18,12 +18,11 @@ df2 = df2.merge(df1[['id','cast','crew']],on='id')
 
 ## 평점 가중치 계산
 C = df2['vote_average'].mean()
-m = df2['vote_count'].quantile(0.9)
+m = df2['vote_count'].quantile(0.7)
 def weightedRating(x,m=m,C=C):
   v = x['vote_count']
   R = x['vote_average']
   return (v/(v+m)*R) + (m/(v+m)*C)
-
 q_movies = df2.copy().loc[df2['vote_count']>=m]
 q_movies['score'] = q_movies.apply(weightedRating,axis=1)
 q_movies = q_movies.sort_values('score',ascending=False)
@@ -34,26 +33,19 @@ q_movies = q_movies.sort_values('score',ascending=False)
 tfidf = TfidfVectorizer(stop_words='english')
 
 df2['overview'] =df2['overview'].fillna('')
+q_movies['overview'] = q_movies['overview'].fillna('')
 tfidf_matrix = tfidf.fit_transform(df2['overview'])
+tfidf_mat = tfidf.fit_transform(q_movies['overview'])
 
 ### 코사인 유사도 적용하기
 cosine_sim = linear_kernel(tfidf_matrix,tfidf_matrix)
+cosine_sim2 = linear_kernel(tfidf_mat,tfidf_mat)
+
 indices = pd.Series(df2.index,index=df2['title']).drop_duplicates()
+indices2 = pd.Series(q_movies.index,index=q_movies['title']).drop_duplicates()
 
 
-### 이건, 하나의 데이터 줄로도 여러개 영화에 대입 가능하다는 의미
-cosine_sim_ex = linear_kernel(tfidf_matrix[0],tfidf_matrix)
-idx = indices['Avatar']
-sim_score = list(enumerate(cosine_sim_ex[0]))
-sim_score = sorted(sim_score,key=lambda x:x[1],reverse=True)
-sim_score = sim_score[1:11]
-movie_indicies = [i[0] for i in sim_score]
-##print('This')
-##print(df2[['id','title']].iloc[movie_indicies])
-##print('That')
-###
-
-def get_recommendation(title,cosine_sim = cosine_sim):
+def get_recommendation(title,cosine_sim = cosine_sim2):
   idx = indices[title]
   sim_scores = list(enumerate(cosine_sim[idx]))
 
@@ -62,7 +54,7 @@ def get_recommendation(title,cosine_sim = cosine_sim):
   sim_scores = sim_scores[1:11]
   
   movie_indicies = [i[0] for i in sim_scores]
-  return df2[['id','title']].iloc[movie_indicies]
+  return q_movies[['id','title']].iloc[movie_indicies]
 
 
 if __name__ == '__main__':
@@ -79,3 +71,6 @@ if __name__ == '__main__':
 # 4. 단순하게 밀어내기 
 # 5. 
 # 6.  
+
+
+# 10월 31일 평점가중치 적용완료
