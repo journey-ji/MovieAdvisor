@@ -1,8 +1,5 @@
-import enum
 import pandas as pd
-import numpy as np
 import sys
-import json
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 

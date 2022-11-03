@@ -1,8 +1,5 @@
-import enum
 import pandas as pd
-import numpy as np
 import sys
-import json
 from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
@@ -123,6 +120,6 @@ if __name__ == '__main__':
 ## 10월 31일 유사도 하위 2개의 영화를 리스트에 넣기 
 ## 11월 1일 평점가중치 적용한 리스트 생성
 
-
+## 할 일 1. 안쓰는 코드들 정리하고 주석처리
 
 

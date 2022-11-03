@@ -37,7 +37,7 @@ mongoose.connect(
 
 app.get('/test',(req,res)=>{
   let dataToSend;
-  const python = spawn('python3', ['contents-based-filtering.py','Spider-Man 3']);
+  const python = spawn('python3', ['contents-based-filtering2.py',[109445]]);
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
@@ -61,6 +61,9 @@ let movieList =[]
 app.post('/test', async function(req, res) {
   var name = req.body.name;
   var price = req.body.price;
+  if(movieList.length>=7){
+    movieList.shift()
+  }
   movieList.push(parseInt(req.body.movieId))
   console.log(movieList)
 
@@ -86,3 +89,5 @@ exports.testData
 
 // 진행사항
 // 10.24일 파이썬 연동부분 비동기처리 완료 
+
+// 11.03일 추천영화리스트 7개로 제한하기 완료
