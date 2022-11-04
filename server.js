@@ -67,8 +67,7 @@ app.post('/test', async function(req, res) {
   movieList.push(parseInt(req.body.movieId))
   console.log(movieList)
 
-
-  // 아래의 코드에서 비동기 흐름 파악하기
+ 
   let dataToSend
   const python =  await spawn('python3',['contents-based-filtering2.py',movieList])
   python.stdout.on('data',(data)=>{
@@ -79,9 +78,7 @@ app.post('/test', async function(req, res) {
   python.on('close',  (code) => {
     res.json(dataToSend);
   })
-  // console.log("Is send it?");
-  // console.log(name + " " + price);
-  // res.status(200).json({1: name, 2:price,3:movieList})
+  
 })
 exports.testData
 
