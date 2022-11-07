@@ -66,6 +66,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 15px;
   box-sizing: border-box;
+  justify-items: center;
 }
 .cont-movies .tit-movies {
   color: #e5e5e5;
@@ -73,7 +74,11 @@ body {
   font-size: 20px;
 
 }
+.cont-movies ul .item-movie {
+  overflow: auto;
+}
 .cont-movies ul .item-movie img{
   width: 180px;
+  height: 270px;
   cursor: pointer;
 }

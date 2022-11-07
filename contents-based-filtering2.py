@@ -75,10 +75,10 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   temp = df2['overview'].copy()
   temp2 = q_movies['overview'].copy()
    
-  total_overview = ''
+  total_overview = 'rain cloud sad sleep '
   total_overview2 = ''
   for x in movieList:
-    total_overview += str(df2['overview'].loc[df2['id']==x])
+    
     total_overview2 += str(q_movies['overview'].loc[q_movies['id']==x])
   temp[temp.size-1] = total_overview ## temp의 마지막에 total_overview 추가
   temp2[temp2.size-1] = total_overview2
@@ -99,11 +99,11 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   
   movie_indicies = [i[0] for i in total_score]
   movie_indicies2 = [i[0] for i in total_score2]
-  
+  # print(df2[['id','title']].iloc[movie_indicies])
   print(q_movies[['id','title']].iloc[movie_indicies2])
 if __name__ == '__main__':
 
-  get_recommendation2(sys.argv[1])
+  get_recommendation2([19995])
 
 # 선호도를 찾을 방법,
 # 1. 필터버블이라는게 개인의 선호도가 가중됨에 따라 편향적으로 나타나는 것!
@@ -121,5 +121,5 @@ if __name__ == '__main__':
 ## 11월 1일 평점가중치 적용한 리스트 생성
 
 ## 할 일 1. 안쓰는 코드들 정리하고 주석처리
-
+##      2. 특정 단어 입력시 해당단어를 기준으로 코사인유사도 구하기
 
