@@ -1,5 +1,9 @@
+* , *::before, *::after{
+  box-sizing: border-box;
+}
 html {
-  width: 1465px;
+  width: 99vw;
+  overflow-x: hidden;
 }
 header {
   display: flex;
@@ -32,12 +36,12 @@ body {
 }
 .wrap {
   
-  width: 100vw;
+  width: 99vw;
 }
 
  .wrap .cont-hero {
   display: block;
-  width: 100vw;
+  width: 99vw;
   background-size: cover;
   height: 100vh;
   background-image: 
@@ -53,7 +57,7 @@ body {
  }
 
 .cont-movies {
-  width: 100vw;
+  width: 99vw;
   height: auto;
   margin: 0 auto;
   padding: 30px 50px;
@@ -82,3 +86,76 @@ body {
   height: 270px;
   cursor: pointer;
 }
+
+
+/* 넷플릭스 슬라이더 구현 */
+
+:root {
+  --slider-padding: 3rem;
+}
+
+
+.cont-trending {
+  display: flex;
+  justify-content: center;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.slider {
+  display: flex;
+  flex-grow: 1;
+  width: calc(100%- 2*var(--slider-padding));
+  transform: translateX(-100%);
+  
+}
+.slider > img {
+  max-width: 25%;
+  flex: 0 0 25%;
+  aspect-ratio: 16 /9;
+  padding: .25rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  
+}
+.handle {
+  border: none;
+  border-radius: 1rem;
+  flex-grow: 0;
+  width: var(--slider-padding);
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  margin: .25rem 0;
+  pad: 0 .25rem;
+  cursor: pointer;
+  font-size: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  line-height: 0;
+  transition: background-color 150ms ease-in-out;
+}
+
+.left-handle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.right-handle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.handle:hover,
+.handle:focus {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+.text {
+  transition: transform 150ms ease-in-out;
+}
+.handle:hover .text,
+.handle:focus .text{
+  transform: scale(1.1);
+} 
