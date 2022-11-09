@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import linear_kernel
 ## 데이터 불러오기
 df1 = pd.read_csv('../data/tmdb_5000_credits.csv')
 df2 = pd.read_csv('../data/tmdb_5000_movies.csv')
-
+# df2 = pd.read_csv('../data/tmdb_latest_movies.csv')
 
 ## 데이터 병합
 df1.columns = ['id','title','cast','crew']
@@ -76,6 +76,11 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   temp2 = q_movies['overview'].copy()
    
   total_overview = 'rain cloud sad sleep '
+  ## 날씨 관련 단어셋
+  # 기준 : 맑고 시원한 산들바람이 붐, 핵더움, 비옴, 눈옴 
+  ## 아래 페이지 참조
+  ## https://www.teachstarter.com/us/teaching-resource/weather-word-wall-vocabulary-us/ 
+  ##
   total_overview2 = ''
   for x in movieList:
     
@@ -103,7 +108,7 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   print(q_movies[['id','title']].iloc[movie_indicies2])
 if __name__ == '__main__':
 
-  get_recommendation2([19995])
+  get_recommendation2(sys.argv[1])
 
 # 선호도를 찾을 방법,
 # 1. 필터버블이라는게 개인의 선호도가 가중됨에 따라 편향적으로 나타나는 것!
@@ -119,7 +124,6 @@ if __name__ == '__main__':
 
 ## 10월 31일 유사도 하위 2개의 영화를 리스트에 넣기 
 ## 11월 1일 평점가중치 적용한 리스트 생성
-
+## 11월 7일 특정단어에 대한 코사인 유사도 구하기 완료
 ## 할 일 1. 안쓰는 코드들 정리하고 주석처리
-##      2. 특정 단어 입력시 해당단어를 기준으로 코사인유사도 구하기
-
+##       2. 날씨관련 영단어셋 

@@ -7,6 +7,7 @@
     <title>영화추천 시스템</title>
     <link rel="stylesheet" href="./static/css/reset.css">
     <link rel="stylesheet" href="./static/css/style.css">
+    <script src="./static/js/slider.js" defer></script>
 </head>
 <body>
     <header>
@@ -86,9 +87,11 @@
 
             // 초기 파이썬 데이터 받아오기
             if(data==='first-page-load'){
+                console.log("start")
                 fetch("http://localhost:3000/test")
                 .then(response => response.json())
                 .then(response => {
+                    console.log('fetch completed')
                     // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
                     let temp = response.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
                     temp.forEach((e,idx,arr) => {
@@ -177,8 +180,8 @@
             fetch('https://api.themoviedb.org/3/trending/all/day?api_key=3978573dbb0bb023a5f7c9fbb4d079aa&language=ko-KR')
             .then(response=>response.json())
             .then(data =>{
-                for(let i of data['results']){
-                    console.log(i['title'])
+                for(let i =0; i<10;i++){
+                    document.querySelector(`#trend-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+data['results'][i]['poster_path'])
                 }
             })
         }
@@ -199,4 +202,6 @@
  2. 내가 선택한 영화 슬라이드 작성 
  3. 추천영화 css 깔끔하게 수정 / 11월 7일 완료
 
+
+ 11월 9일 최근 인기영화 캐러셀 추가 (progress-bar작업 필요)
 -->
