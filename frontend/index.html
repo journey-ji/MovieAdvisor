@@ -61,6 +61,7 @@
     <footer></footer>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script>
+
         const API = '3978573dbb0bb023a5f7c9fbb4d079aa';
         let posterPath='';
         let movieId = 19995
@@ -93,7 +94,9 @@
                 .then(response => {
                     console.log('fetch completed')
                     // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
-                    let temp = response.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
+                    // 아마 윈도우랑 맥의 공백차이 때문에 잘못작동하는 듯
+                    // 윈도우는 \r\n으로 처리가능 Unix, Linux 는 \n
+                    let temp = response.split(/\r\n|\r|\n/).filter((ele,idx)=>idx<=10&&idx>0)
                     temp.forEach((e,idx,arr) => {
                         arr[idx] = e.replace(' ',',').split(',')
                         arr[idx][1] = arr[idx][1].trim()
@@ -101,7 +104,7 @@
                         arr[idx][1] = arr[idx][1].trim()
                         arr[idx][0] = parseInt(arr[idx][0])
                     });
-                    console.log(temp)
+                    console.log(response)
                     
                     
                     // 10개 영화 포스터 입력 함수화하기
@@ -118,7 +121,7 @@
                     
                 })
             }else{
-                let temp = data.split('\r\n').filter((ele,idx)=>idx<=10&&idx>0)
+                let temp = data.split(/\r\n|\r|\n/).filter((ele,idx)=>idx<=10&&idx>0)
                 temp.forEach((e,idx,arr) => {
                     arr[idx] = e.replace(' ',',').split(',')
                     arr[idx][1] = arr[idx][1].trim()
@@ -204,4 +207,6 @@
 
 
  11월 9일 최근 인기영화 캐러셀 추가 (progress-bar작업 필요)
+
+ 11월 11일 fetch 데이터에 대한 윈도우와 맥 개행문자 처리 완료
 -->
