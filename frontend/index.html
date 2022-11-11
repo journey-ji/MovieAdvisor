@@ -34,26 +34,38 @@
                     <li class="item-movie"><img id="img10" src="./static/img/sample1.jpg" alt=""></li>
                 </ul>
             </div>
-            <h2 class="tit-movies">최근 인기 영화</h2>
-            <div class="cont-trending">
-                <button class="handle left-handle">
-                    <div class="text">&#8249;</div>
-                </button>
-                <div class="slider">
-                    <img id="trend-img1" src="https://via.placeholder.com/210/00FF00?text=1" alt="">
-                    <img id="trend-img2" src="https://via.placeholder.com/210/00FF00?text=2" alt="">
-                    <img id="trend-img3" src="https://via.placeholder.com/210/00FF00?text=3" alt="">
-                    <img id="trend-img4" src="https://via.placeholder.com/210/00FF00?text=4" alt="">
-                    <img id="trend-img5" src="https://via.placeholder.com/210/00FF00?text=5" alt="">
-                    <img id="trend-img6" src="https://via.placeholder.com/210/00FF00?text=6" alt="">
-                    <img id="trend-img7" src="https://via.placeholder.com/210/00FF00?text=7" alt="">
-                    <img id="trend-img8" src="https://via.placeholder.com/210/00FF00?text=8" alt="">
-                    <img id="trend-img9" src="https://via.placeholder.com/210/00FF00?text=9" alt="">
-                    <img id="trend-img10" src="https://via.placeholder.com/210/00FF00?text=10" alt="">
+            <div class="row">
+                <div class="header-slider">
+                    <h2 class="tit-movies">최근 인기 컨텐츠</h2>
+                    <div class="progress-bar">
+                        <div class="progress-item active"></div>
+                        <div class="progress-item"></div>
+                        <div class="progress-item"></div>
+                        <div class="progress-item"></div>
+                    </div>
                 </div>
-                <button class="handle right-handle">
-                    <div class="text">&#8250;</div>
-                </button>
+                <div class="cont-trending">
+                    <button class="handle left-handle">
+                        <div class="text">&#8249;</div>
+                    </button>
+                    <div class="slider">
+                        <img id="trend-img1" src="https://via.placeholder.com/210/000000?text=1" alt="">
+                        <img id="trend-img2" src="https://via.placeholder.com/210/000000?text=2" alt="">
+                        <img id="trend-img3" src="https://via.placeholder.com/210/000000?text=3" alt="">
+                        <img id="trend-img4" src="https://via.placeholder.com/210/000000?text=4" alt="">
+                        <img id="trend-img5" src="https://via.placeholder.com/210/000000?text=5" alt="">
+                        <img id="trend-img6" src="https://via.placeholder.com/210/000000?text=6" alt="">
+                        <img id="trend-img7" src="https://via.placeholder.com/210/000000?text=7" alt="">
+                        <img id="trend-img8" src="https://via.placeholder.com/210/000000?text=8" alt="">
+                        <img id="trend-img9" src="https://via.placeholder.com/210/000000?text=9" alt="">
+                        <img id="trend-img10" src="https://via.placeholder.com/210/000000?text=10" alt="">
+                        <img id="trend-img11" src="https://via.placeholder.com/210/000000?text=11" alt="">
+                        <img id="trend-img12" src="https://via.placeholder.com/210/000000?text=12" alt="">
+                    </div>
+                    <button class="handle right-handle">
+                        <div class="text">&#8250;</div>
+                    </button>
+                </div>
             </div>
             
         </div>
@@ -183,7 +195,8 @@
             fetch('https://api.themoviedb.org/3/trending/all/day?api_key=3978573dbb0bb023a5f7c9fbb4d079aa&language=ko-KR')
             .then(response=>response.json())
             .then(data =>{
-                for(let i =0; i<10;i++){
+                // console.log(data)
+                for(let i =0; i<12;i++){
                     document.querySelector(`#trend-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+data['results'][i]['poster_path'])
                 }
             })
@@ -206,7 +219,8 @@
  3. 추천영화 css 깔끔하게 수정 / 11월 7일 완료
 
 
- 11월 9일 최근 인기영화 캐러셀 추가 (progress-bar작업 필요)
+ 11월 9일 최근 인기영화 캐러셀 추가 
 
  11월 11일 fetch 데이터에 대한 윈도우와 맥 개행문자 처리 완료
+ 11월 11일 최근 인기 컨텐츠 캐러셀(progress-bar)작업 완료
 -->
