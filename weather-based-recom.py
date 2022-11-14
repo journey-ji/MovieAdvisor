@@ -4,13 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 ## 데이터 불러오기
-df1 = pd.read_csv('../data/tmdb_5000_credits.csv')
 df2 = pd.read_csv('../data/tmdb_5000_movies.csv')
-
-
-## 데이터 병합
-df1.columns = ['id','title','cast','crew']
-df2 = df2.merge(df1[['id','cast','crew']],on='id')
 
 
 ### 텍스트(컨텐츠) 분석하기
@@ -40,13 +34,22 @@ def weighted_rating(x,m=m,C=C):
 ## 평점가중치가 적용된 영화리스트 ! (상위 10% 이상의 추천수를 받은 영화만 가지고 있음)
 q_movies['score'] = q_movies.apply(weighted_rating,axis=1)
 
-def get_recommendation2(movieList,cosine_sim=cosine_sim):
+
+## 날씨 데이터셋
+sun = 'sun sulight daylight glare shine sunburst'
+
+
+def get_recommendation2(weather,cosine_sim=cosine_sim):
   ## 입력된 문자열을 리스트로 변환
 
   ## 추천리스트의 모든 영화에 대한 줄거리를 하나의 문자열로 만들기
   temp = df2['overview'].copy()
-   
-  total_overview = 'rain cloud sad sleep '
+
+  if weather=='rain':
+     total_overview = 'rain rainfall storm downpour wet rainstorm thunderstorm procipitation weather deluge shower cloudburst downfall thundershower drizzle mist spit sprinkle mizzle scud'
+  else:
+     total_overview = 'rain cloud sad sleep'
+  
   ## 날씨 관련 단어셋
   # 기준 : 맑고 시원한 산들바람이 붐, 핵더움, 비옴, 눈옴 
   ## 아래 페이지 참조
@@ -62,13 +65,13 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
 
   total_score = list(enumerate(total_sim[0]))
   total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
-  total_score = total_score[1:9]+total_score[-3:-1]
+  total_score = total_score[1:13]
   
   movie_indicies = [i[0] for i in total_score]
   print(df2[['id','title']].iloc[movie_indicies])
   #print(q_movies[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
 
-  get_recommendation2([19995])
+  get_recommendation2(sys.argv[1])
 
 ## 날씨에 따른 영화추천해주기 구현

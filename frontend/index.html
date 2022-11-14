@@ -177,13 +177,13 @@
                 });
                 
                 for(let i=0; i<10;i++){
-                // 클라이언트의 영화목록에 movieId 저장
-                movieList[`img${i+1}`] = parseInt(temp[i][0])
-                fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
-                .then(response=>response.json())
-                .then(response=>{
-                    document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
-                })
+                    // 클라이언트의 영화목록에 movieId 저장
+                    movieList[`img${i+1}`] = parseInt(temp[i][0])
+                    fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                    .then(response=>response.json())
+                    .then(response=>{
+                        document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                    })
                 }
             }
         }
@@ -240,7 +240,32 @@
         // 날씨별 추천 영화 
         
         const weatherRecomMovieList = ()=>{
-            
+            fetch('http://localhost:3000/weather')
+            .then(response=>response.json())
+            .then(data=>{
+                
+                let temp = data.split(/\r\n|\r|\n/).filter((ele,idx)=>idx<=12&&idx>0)
+                    temp.forEach((e,idx,arr) => {
+                        arr[idx] = e.replace(' ',',').split(',')
+                        arr[idx][1] = arr[idx][1].trim()
+                        arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                        arr[idx][1] = arr[idx][1].trim()
+                        arr[idx][0] = parseInt(arr[idx][0])
+                    });
+                console.log(temp)
+                movieUrl = ''
+                
+                for(let i =0; i<12;i++){
+                   // document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+movieUrl)
+                }
+                for(let i=0; i<12;i++){
+                    fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                    .then(response=>response.json())
+                    .then(response=>{
+                        document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                    })
+                }
+            })
         }
 
 
@@ -249,15 +274,16 @@
         data_fetch('first-page-load')
         imageClick_set()
         tredingMoiveList()
+        weatherRecomMovieList()
     </script>
     
 </body>
 </html>
 
 <!-- 할 일 
- 1. 최근 인기영화 슬라이드 작성
- 2. 내가 선택한 영화 슬라이드 작성 
- 3. 추천영화 css 깔끔하게 수정 / 11월 7일 완료
+ 1. 오늘의 날씨 api 받아오기  기상청 ?
+ 2. progress bar 개수 카운트 다시 확인하기 
+ 3. 
 
 
  11월 9일 최근 인기영화 캐러셀 추가 
@@ -265,4 +291,5 @@
  11월 11일 fetch 데이터에 대한 윈도우와 맥 개행문자 처리 완료
  11월 11일 최근 인기 컨텐츠 캐러셀(progress-bar)작업 완료
  11월 14일 오늘날씨 추천영화 CSS HTML 완료
+ 11월 14일 오늘날씨 추천영화 구현 완료 (기상청 날씨 api 연동 필요)
 -->

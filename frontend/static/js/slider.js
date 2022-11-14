@@ -14,8 +14,19 @@ document.addEventListener('click',e=>{
   }
 })
 
+
+
+
 window.addEventListener('resize',(e)=>{
   // progress bar 크기 재설정
+  // 최대화면 : 4개 크기에서 3개크기 (1000px) 이하로 떨어지면 재설정
+  // 반대경우에도 똑같이 설정
+  
+  // 화면 ,,, 크기,,, eventlistener,,,
+  window.addEventListener('resize',e=>{
+    //const width = window.innerWidth; // type = number
+    document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
+  }) 
 })
 
 // progress bar의 개수 계산 
