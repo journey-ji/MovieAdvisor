@@ -67,6 +67,42 @@
                     </button>
                 </div>
             </div>
+
+
+
+            <div class="weather">
+                <div class="header-slider">
+                    <h2 class="tit-movies">오늘날씨 추천영화</h2>
+                    <div class="progress-bar">
+                        <div class="progress-item active"></div>
+                        <div class="progress-item"></div>
+                        <div class="progress-item"></div>
+                        <div class="progress-item"></div>
+                    </div>
+                </div>
+                <div class="cont-trending">
+                    <button class="handle left-handle">
+                        <div class="text">&#8249;</div>
+                    </button>
+                    <div class="slider">
+                        <img id="weather-img1" src="https://via.placeholder.com/210/000000?text=1" alt="">
+                        <img id="weather-img2" src="https://via.placeholder.com/210/000000?text=2" alt="">
+                        <img id="weather-img3" src="https://via.placeholder.com/210/000000?text=3" alt="">
+                        <img id="weather-img4" src="https://via.placeholder.com/210/000000?text=4" alt="">
+                        <img id="weather-img5" src="https://via.placeholder.com/210/000000?text=5" alt="">
+                        <img id="weather-img6" src="https://via.placeholder.com/210/000000?text=6" alt="">
+                        <img id="weather-img7" src="https://via.placeholder.com/210/000000?text=7" alt="">
+                        <img id="weather-img8" src="https://via.placeholder.com/210/000000?text=8" alt="">
+                        <img id="weather-img9" src="https://via.placeholder.com/210/000000?text=9" alt="">
+                        <img id="weather-img10" src="https://via.placeholder.com/210/000000?text=10" alt="">
+                        <img id="weather-img11" src="https://via.placeholder.com/210/000000?text=11" alt="">
+                        <img id="weather-img12" src="https://via.placeholder.com/210/000000?text=12" alt="">
+                    </div>
+                    <button class="handle right-handle">
+                        <div class="text">&#8250;</div>
+                    </button>
+                </div>
+            </div>
             
         </div>
     </main>
@@ -100,11 +136,9 @@
 
             // 초기 파이썬 데이터 받아오기
             if(data==='first-page-load'){
-                console.log("start")
                 fetch("http://localhost:3000/test")
                 .then(response => response.json())
                 .then(response => {
-                    console.log('fetch completed')
                     // 입력받은 문자열을 movieId & title 로 나뉜 배열로 반환
                     // 아마 윈도우랑 맥의 공백차이 때문에 잘못작동하는 듯
                     // 윈도우는 \r\n으로 처리가능 Unix, Linux 는 \n
@@ -116,7 +150,7 @@
                         arr[idx][1] = arr[idx][1].trim()
                         arr[idx][0] = parseInt(arr[idx][0])
                     });
-                    console.log(response)
+                    
                     
                     
                     // 10개 영화 포스터 입력 함수화하기
@@ -141,7 +175,7 @@
                     arr[idx][1] = arr[idx][1].trim()
                     arr[idx][0] = parseInt(arr[idx][0])
                 });
-                console.log(temp)
+                
                 for(let i=0; i<10;i++){
                 // 클라이언트의 영화목록에 movieId 저장
                 movieList[`img${i+1}`] = parseInt(temp[i][0])
@@ -203,6 +237,13 @@
         }
 
 
+        // 날씨별 추천 영화 
+        
+        const weatherRecomMovieList = ()=>{
+            
+        }
+
+
 
 
         data_fetch('first-page-load')
@@ -223,4 +264,5 @@
 
  11월 11일 fetch 데이터에 대한 윈도우와 맥 개행문자 처리 완료
  11월 11일 최근 인기 컨텐츠 캐러셀(progress-bar)작업 완료
+ 11월 14일 오늘날씨 추천영화 CSS HTML 완료
 -->

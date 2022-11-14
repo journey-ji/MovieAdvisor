@@ -2,13 +2,15 @@
 
 
 
-
+// handle 클릭 이벤트 
 document.addEventListener('click',e=>{
   let handle 
+  // html 기준으로 클릭한 곳에서 가장 가까운 곳의 handle요소를 저장
   if(e.target.matches(".handle")) handle = e.target
   else {
     handle = e.target.closest('.handle')
   }
+  console.log(handle)
   if(handle !== null){
     onHandleClick(handle)
   }
@@ -18,17 +20,12 @@ window.addEventListener('resize',(e)=>{
   // progress bar 크기 재설정
 })
 
-// progress bar의 개수 계산 
+document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
+
 function calculateProgressBar(progressBar){
   progressBar.innerHTML = ''
-  let slider = progressBar
-  if(progressBar.closest(".row")){
-    slider =progressBar.closest(".row").querySelector('.slider')
-  }else if(progressBar.closest(".weather")){
-    slider =progressBar.closest(".weather").querySelector('.slider')
-  }
-  
-  
+  const slider =progressBar.closest(".row").querySelector(".slider")
+  console.log(slider)
   
   const itemCount = slider.children.length
   const itemsPerScreen = parseInt(getComputedStyle(slider).getPropertyValue('--items-per-screen'))
@@ -45,18 +42,9 @@ function calculateProgressBar(progressBar){
     progressBar.append(barItem)
   }
 }
-document.querySelectorAll(".progress-bar").forEach(calculateProgressBar)
-
 
 function onHandleClick(handle){
-  let progressBar = handle
-
-  if(progressBar.closest(".row")){
-    progressBar = handle.closest('.row').querySelector('.progress-bar')
-  }else if(progressBar.closest(".weather")){
-    progressBar = handle.closest('.weather').querySelector('.progress-bar')
-  }
-  
+  const progressBar = handle.closest('.row').querySelector('.progress-bar')
   const slider = handle.closest('.cont-trending').querySelector(".slider")
   const sliderIndex = parseInt(
     getComputedStyle(slider).getPropertyValue('--slider-index'))
