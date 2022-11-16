@@ -48,7 +48,7 @@ def get_recommendation2(weather,cosine_sim=cosine_sim):
   if weather=='rain':
      total_overview = 'rain rainfall storm downpour wet rainstorm thunderstorm procipitation weather deluge shower cloudburst downfall thundershower drizzle mist spit sprinkle mizzle scud'
   else:
-     total_overview = 'rain cloud sad sleep'
+     total_overview = 'sun sulight daylight glare shine sunburst'
   
   ## 날씨 관련 단어셋
   # 기준 : 맑고 시원한 산들바람이 붐, 핵더움, 비옴, 눈옴 
@@ -71,7 +71,7 @@ def get_recommendation2(weather,cosine_sim=cosine_sim):
   print(df2[['id','title']].iloc[movie_indicies])
   #print(q_movies[['id','title']].iloc[movie_indicies])
 if __name__ == '__main__':
-
+  
   get_recommendation2(sys.argv[1])
 
 ## 날씨에 따른 영화추천해주기 구현
