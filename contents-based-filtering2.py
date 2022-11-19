@@ -75,17 +75,10 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   temp = df2['overview'].copy()
   temp2 = q_movies['overview'].copy()
    
-  total_overview = 'rain cloud sad sleep '
-  ## 날씨 관련 단어셋
-  # 기준 : 맑고 시원한 산들바람이 붐, 핵더움, 비옴, 눈옴 
-  ## 아래 페이지 참조
-  ## https://www.teachstarter.com/us/teaching-resource/weather-word-wall-vocabulary-us/ 
-  ##
   total_overview2 = ''
   for x in movieList:
     
     total_overview2 += str(q_movies['overview'].loc[q_movies['id']==x])
-  temp[temp.size-1] = total_overview ## temp의 마지막에 total_overview 추가
   temp2[temp2.size-1] = total_overview2
 
   # 영화 줄거리에 대한 벡터값 구하기
@@ -100,12 +93,18 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
   total_score2 = sorted(total_score2,key=lambda x:x[1],reverse=True)
   total_score = total_score[1:9]+total_score[-3:-1]
-  total_score2 = total_score2[1:9]+total_score2[-3:-1]
+  total_score2 = total_score2[1:30]+total_score2[-3:-1]
+  movie_indicies2=[]
+  for i in total_score2:
+    #print(q_movies['id'].iloc[i[0]])
+    if(q_movies['id'].iloc[i[0]] not in movieList):
+      movie_indicies2.append(i[0])
   
+
   movie_indicies = [i[0] for i in total_score]
-  movie_indicies2 = [i[0] for i in total_score2]
+  #movie_indicies2 = [i[0] for i in total_score2]
   # print(df2[['id','title']].iloc[movie_indicies])
-  print(q_movies[['id','title']].iloc[movie_indicies2])
+  print(q_movies[['id','title']].iloc[movie_indicies2[:8]+movie_indicies2[-3:-1]])
 if __name__ == '__main__':
 
   get_recommendation2(sys.argv[1])
