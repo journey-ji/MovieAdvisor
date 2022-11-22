@@ -269,12 +269,38 @@
         }
 
 
+        API_KEY_WEATHER = '666e0013491f9bec0f33e038ad9ece80'
+        function getWeather(lat, lon) {
+            fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`
+            )
+            .then(response=>response.json())
+            .then(data=>{
+                $.ajax({
+                    type:'post',   //post 방식으로 전송
+                    url:'/weather',   //데이터를 주고받을 파일 주소
+                    data: {
+                        name : `날씨`,
+                        weather : data.weather[0].main,
+                    },
+                    dataType:'json',   //json 파일 형식으로 값을 담아온다.
+                    success : function(data){   //파일 주고받기가 성공했을 경우
+                        console.log('전송ㅇㅋ')
+                    },
+                    error : function(err) {     // 실패 시
+                        console.log("failed : " + err);
+                    }
+                });
+            })
+        }
 
 
         data_fetch('first-page-load')
         imageClick_set()
         tredingMoiveList()
+        getWeather(37.2428,127.0798)
         weatherRecomMovieList()
+
     </script>
     
 </body>
@@ -292,4 +318,5 @@
  11월 11일 최근 인기 컨텐츠 캐러셀(progress-bar)작업 완료
  11월 14일 오늘날씨 추천영화 CSS HTML 완료
  11월 14일 오늘날씨 추천영화 구현 완료 (기상청 날씨 api 연동 필요)
+ 11월 22일 현재 날씨 받아오기 완료
 -->

@@ -54,6 +54,9 @@ to do list
 
 
 */ 
+
+
+
 app.get('/test',(req,res)=>{
   let dataToSend;
   const python = spawn('python3', ['contents-based-filtering2.py',[109445]]);
@@ -67,6 +70,8 @@ app.get('/test',(req,res)=>{
      res.json(dataToSend);
   })
 })
+
+
 
 
 
@@ -95,8 +100,6 @@ app.listen(process.env.PORT || 3000, ()=>console.log(`Server running on 3000`))
 
 let movieList =[]
 app.post('/test', async function(req, res) {
-  var name = req.body.name;
-  var price = req.body.price;
   if(movieList.length>=7){
     movieList.shift()
   }
@@ -115,6 +118,10 @@ app.post('/test', async function(req, res) {
     res.json(dataToSend);
   })
   
+})
+
+app.post('/weather',function(req,res){
+  console.log(req.body.weather)
 })
 
 
