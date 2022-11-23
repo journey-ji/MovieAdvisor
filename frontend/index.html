@@ -239,33 +239,56 @@
 
         // 날씨별 추천 영화 
         
-        const weatherRecomMovieList = ()=>{
-            fetch('http://localhost:3000/weather')
-            .then(response=>response.json())
-            .then(data=>{
-                
+        const weatherRecomMovieList = (data)=>{
+            if(data){
                 let temp = data.split(/\r\n|\r|\n/).filter((ele,idx)=>idx<=12&&idx>0)
-                    temp.forEach((e,idx,arr) => {
-                        arr[idx] = e.replace(' ',',').split(',')
-                        arr[idx][1] = arr[idx][1].trim()
-                        arr[idx] = arr[idx][1].replace(' ',',').split(',')
-                        arr[idx][1] = arr[idx][1].trim()
-                        arr[idx][0] = parseInt(arr[idx][0])
-                    });
-                console.log(temp)
-                movieUrl = ''
-                
-                for(let i =0; i<12;i++){
-                   // document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+movieUrl)
-                }
-                for(let i=0; i<12;i++){
-                    fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
-                    .then(response=>response.json())
-                    .then(response=>{
-                        document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
-                    })
-                }
-            })
+                        temp.forEach((e,idx,arr) => {
+                            arr[idx] = e.replace(' ',',').split(',')
+                            arr[idx][1] = arr[idx][1].trim()
+                            arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                            arr[idx][1] = arr[idx][1].trim()
+                            arr[idx][0] = parseInt(arr[idx][0])
+                        });
+                    movieUrl = ''
+                    
+                    for(let i =0; i<12;i++){
+                       // document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+movieUrl)
+                    }
+                    for(let i=0; i<12;i++){
+                        fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                        .then(response=>response.json())
+                        .then(response=>{
+                            document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                        })
+                    }
+            }else{
+                fetch('http://localhost:3000/weather')
+                .then(response=>response.json())
+                .then(data=>{
+                    
+                    let temp = data.split(/\r\n|\r|\n/).filter((ele,idx)=>idx<=12&&idx>0)
+                        temp.forEach((e,idx,arr) => {
+                            arr[idx] = e.replace(' ',',').split(',')
+                            arr[idx][1] = arr[idx][1].trim()
+                            arr[idx] = arr[idx][1].replace(' ',',').split(',')
+                            arr[idx][1] = arr[idx][1].trim()
+                            arr[idx][0] = parseInt(arr[idx][0])
+                        });
+                    console.log(temp)
+                    movieUrl = ''
+                    
+                    for(let i =0; i<12;i++){
+                       // document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+movieUrl)
+                    }
+                    for(let i=0; i<12;i++){
+                        fetch(`https://api.themoviedb.org/3/movie/${temp[i][0]}?api_key=${API}&language=ko`)
+                        .then(response=>response.json())
+                        .then(response=>{
+                            document.querySelector(`#weather-img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                        })
+                    }
+                })
+            }
         }
 
 
@@ -276,6 +299,7 @@
             )
             .then(response=>response.json())
             .then(data=>{
+                let todayWeather = data.weather[0].main
                 $.ajax({
                     type:'post',   //post 방식으로 전송
                     url:'/weather',   //데이터를 주고받을 파일 주소
@@ -285,7 +309,8 @@
                     },
                     dataType:'json',   //json 파일 형식으로 값을 담아온다.
                     success : function(data){   //파일 주고받기가 성공했을 경우
-                        console.log('전송ㅇㅋ')
+                        console.log('오늘의 날씨 : '+todayWeather)
+                        weatherRecomMovieList(data)
                     },
                     error : function(err) {     // 실패 시
                         console.log("failed : " + err);
@@ -299,7 +324,7 @@
         imageClick_set()
         tredingMoiveList()
         getWeather(37.2428,127.0798)
-        weatherRecomMovieList()
+        //weatherRecomMovieList()
 
     </script>
     
@@ -319,4 +344,5 @@
  11월 14일 오늘날씨 추천영화 CSS HTML 완료
  11월 14일 오늘날씨 추천영화 구현 완료 (기상청 날씨 api 연동 필요)
  11월 22일 현재 날씨 받아오기 완료
+ 11월 23일 받아온 날씨에 맞는 영화추천하기 완료 (추천시스템에 단어데이터셋 업데이트 필요)
 -->

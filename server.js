@@ -63,8 +63,6 @@ app.get('/test',(req,res)=>{
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
-    console.log(dataToSend)
-    console.log("END!")
   })
   python.on('close', (code) => {
      res.json(dataToSend);
@@ -81,8 +79,6 @@ app.get('/weather',(req,res)=>{
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
-    console.log(dataToSend)
-    console.log("END!")
   })
   python.on('close', (code) => {
      res.json(dataToSend);
@@ -111,7 +107,6 @@ app.post('/test', async function(req, res) {
   const python =  await spawn('python3',['contents-based-filtering2.py',movieList])
   python.stdout.on('data',(data)=>{
     dataToSend = data.toString()
-    console.log(dataToSend)
     testData = dataToSend
   })
   python.on('close',  (code) => {
@@ -120,14 +115,25 @@ app.post('/test', async function(req, res) {
   
 })
 
-app.post('/weather',function(req,res){
-  console.log(req.body.weather)
+app.post('/weather',async function(req,res){
+  let dataToSend;
+  weather = req.body.weather
+  const python = await spawn('python3', ['weather-based-recom.py',weather]);
+  python.stdout.on('data', (data) => {
+    dataToSend = data.toString()
+    testData = dataToSend
+    console.log(dataToSend)
+  })
+  python.on('close', (code) => {
+     res.json(dataToSend);
+  })
 })
 
 
 app.get('/weather',(req,res)=>{
   let dataToSend;
-  const python = spawn('python3', ['weather-based-recomm.py','rain']);
+  weather = 'sunny'//req.body.weather
+  const python = spawn('python3', ['weather-based-recom.py',weather]);
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend

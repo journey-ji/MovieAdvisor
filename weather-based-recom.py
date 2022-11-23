@@ -45,7 +45,7 @@ def get_recommendation2(weather,cosine_sim=cosine_sim):
   ## 추천리스트의 모든 영화에 대한 줄거리를 하나의 문자열로 만들기
   temp = df2['overview'].copy()
 
-  if weather=='rain':
+  if weather in ['Rain','Mist','Haze']:
      total_overview = 'rain rainfall storm downpour wet rainstorm thunderstorm procipitation weather deluge shower cloudburst downfall thundershower drizzle mist spit sprinkle mizzle scud'
   else:
      total_overview = 'sun sulight daylight glare shine sunburst'
