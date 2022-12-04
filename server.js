@@ -100,7 +100,6 @@ app.post('/test', async function(req, res) {
     movieList.shift()
   }
   movieList.push(parseInt(req.body.movieId))
-  console.log(movieList)
 
  
   let dataToSend
@@ -122,7 +121,6 @@ app.post('/weather',async function(req,res){
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
-    console.log(dataToSend)
   })
   python.on('close', (code) => {
      res.json(dataToSend);
@@ -137,8 +135,6 @@ app.get('/weather',(req,res)=>{
   python.stdout.on('data', (data) => {
     dataToSend = data.toString()
     testData = dataToSend
-    console.log(dataToSend)
-    console.log("END!")
   })
   python.on('close', (code) => {
      res.json(dataToSend);
