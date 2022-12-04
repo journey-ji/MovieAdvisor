@@ -67,7 +67,15 @@ TMDB 의 API 데이터는 클라이언트와 서버 양 쪽에서 둘 다 사용
 
 위 동작은 사용자가 원하는 영화를 얻을 때 까지 반복적으로 수행가능하다.
 
+### 클래스 다이어그램
+![image](https://user-images.githubusercontent.com/76766459/205494293-c9542118-0ff6-46a3-b8c5-03725a95da22.png)
 
+클래스 다이어그램은 위와 같다. 사용자가 영화포스터를 클릭하면 DataFetch 클래스를 통해서 Contents-based-filtering에 접근하며, 데이터를 받아서 ImageClick 클래스에 전달해준다. ImageClick 클래스는 전달받은 데이터를 기반으로 TMDB에 접근하여 이미지포스터를 불러온다. 
+
+### 시퀀스 다이어그램
+![image](https://user-images.githubusercontent.com/76766459/205494312-c07a644f-1526-45e7-8b2d-8ae6406d78e7.png)
+
+추천영화의 Sequence Diagram은 위와 같다. 사용자가 영화포스터를 클릭하면 웹에서는 해당 영화정보를 서버로 전송한다. 서버는 전달받은 영화정보를 누적하여 이를 바탕으로 추천영화목록을 생성한 후, 웹으로 다시 보내준다. 웹은 전달받은 영화정보를 기반으로 하여 TMDB API로부터 영화포스터 이미지를 요청하여 불러온다. 
 
 
 ## 연구결과
@@ -90,4 +98,10 @@ TMDB 의 API 데이터는 클라이언트와 서버 양 쪽에서 둘 다 사용
 날씨라는 변수도 사람의 감정과 기분에 영향을 주기때문에 추천시스템을 구성하는 요인으로 넣어주기에 충분하다고 생각했다. 
 
 
+## 참고문헌
+1. Van Meteren, Robin, and Maarten Van Someren. "Using content-based filtering for recommendation." Proceedings of the machine learning in the new information age: MLnet/ECML2000 workshop. Vol. 30. 2000.
+2. 파이썬 머신러닝 완벽가이드. 권철민 저, 2020.02.07
+3. 딥 러닝을 통한 자연어 처리, 유원준/안상준, https://wikidocs.net/book/2155
+4. TMDB API 문서, https://developers.themoviedb.org/3
+5. openweathermap API 문서, https://openweathermap.org/current
 
