@@ -49,6 +49,8 @@ def get_recommendation2(weather,cosine_sim=cosine_sim):
      total_overview = 'rain rainfall storm downpour wet rainstorm thunderstorm procipitation weather deluge shower cloudburst downfall thundershower drizzle mist spit sprinkle mizzle scud'
   elif weather in ['Snow','blizzard']:
     total_overview = 'snow blizzard snowfall powder snowflake'
+  elif weather in ['Clouds']:
+    total_overview = 'haze fog gloom mist puff smog smoke vapor steam frost'
   else:
     total_overview = 'sun sulight daylight glare shine sunburst'
   
