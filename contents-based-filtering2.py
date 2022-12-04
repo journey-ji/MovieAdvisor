@@ -4,26 +4,26 @@ from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 ## 데이터 불러오기
-df1 = pd.read_csv('../data/tmdb_5000_credits.csv')
+# df1 = pd.read_csv('../data/tmdb_5000_credits.csv')
 df2 = pd.read_csv('../data/tmdb_5000_movies.csv')
 # df2 = pd.read_csv('../data/tmdb_latest_movies.csv')
 
-## 데이터 병합
-df1.columns = ['id','title','cast','crew']
-df2 = df2.merge(df1[['id','cast','crew']],on='id')
+## 데이터 병합 (현재는 캐스트랑 크루는 필요없음)
+# df1.columns = ['id','title','cast','crew']
+# df2 = df2.merge(df1[['id','cast','crew']],on='id')
 
 
-## 평점 가중치 계산
-C = df2['vote_average'].mean()
-m = df2['vote_count'].quantile(0.9)
-def weightedRating(x,m=m,C=C):
-  v = x['vote_count']
-  R = x['vote_average']
-  return (v/(v+m)*R) + (m/(v+m)*C)
+# ## 평점 가중치 계산
+# C = df2['vote_average'].mean()
+# m = df2['vote_count'].quantile(0.9)
+# def weightedRating(x,m=m,C=C):
+#   v = x['vote_count']
+#   R = x['vote_average']
+#   return (v/(v+m)*R) + (m/(v+m)*C)
 
-q_movies = df2.copy().loc[df2['vote_count']>=m]
-q_movies['score'] = q_movies.apply(weightedRating,axis=1)
-q_movies = q_movies.sort_values('score',ascending=False)
+# q_movies = df2.copy().loc[df2['vote_count']>=m]
+# q_movies['score'] = q_movies.apply(weightedRating,axis=1)
+# q_movies = q_movies.sort_values('score',ascending=False)
 
 
 
@@ -72,7 +72,7 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   movieList = list(map(int, movieList))
 
   ## 추천리스트의 모든 영화에 대한 줄거리를 하나의 문자열로 만들기
-  temp = df2['overview'].copy()
+  #temp = df2['overview'].copy()
   temp2 = q_movies['overview'].copy()
    
   total_overview2 = ''
@@ -82,17 +82,17 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
   temp2[temp2.size-1] = total_overview2
 
   # 영화 줄거리에 대한 벡터값 구하기
-  total_matrix = tfidf.fit_transform(temp)
+  #total_matrix = tfidf.fit_transform(temp)
   total_matrix2 = tfidf.fit_transform(temp2)
   # 벡터값에 대한 코사인 유사도 구하고 내림차순 정렬
-  total_sim = linear_kernel(total_matrix[temp.size-1],total_matrix)
+  #total_sim = linear_kernel(total_matrix[temp.size-1],total_matrix)
   total_sim2 = linear_kernel(total_matrix2[temp2.size-1],total_matrix2)
 
-  total_score = list(enumerate(total_sim[0]))
+  #total_score = list(enumerate(total_sim[0]))
   total_score2 = list(enumerate(total_sim2[0]))
-  total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
+  #total_score = sorted(total_score,key=lambda x:x[1],reverse=True)
   total_score2 = sorted(total_score2,key=lambda x:x[1],reverse=True)
-  total_score = total_score[1:9]+total_score[-3:-1]
+  #total_score = total_score[1:9]+total_score[-3:-1]
   total_score2 = total_score2[1:30]+total_score2[-3:-1]
   movie_indicies2=[]
   for i in total_score2:
@@ -101,7 +101,7 @@ def get_recommendation2(movieList,cosine_sim=cosine_sim):
       movie_indicies2.append(i[0])
   
 
-  movie_indicies = [i[0] for i in total_score]
+  #movie_indicies = [i[0] for i in total_score]
   #movie_indicies2 = [i[0] for i in total_score2]
   # print(df2[['id','title']].iloc[movie_indicies])
   print(q_movies[['id','title']].iloc[movie_indicies2[:8]+movie_indicies2[-3:-1]])
