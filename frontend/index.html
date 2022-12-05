@@ -162,6 +162,7 @@
                         .then(response=>response.json())
                         .then(response=>{
                             document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                            document.querySelector(`#img${i+1}`).setAttribute('data-value',response.id)
                         })
                     }
                     
@@ -183,6 +184,7 @@
                     .then(response=>response.json())
                     .then(response=>{
                         document.querySelector(`#img${i+1}`).setAttribute('src','https://image.tmdb.org/t/p/original'+response.poster_path)
+                        document.querySelector(`#img${i+1}`).setAttribute('data-value',response.id)
                     })
                 }
             }
@@ -202,6 +204,14 @@
             for(let i=1; i<=10;i++){
                 $(function(){
                     $(`#img${i}`).click(function(){   //submit 버튼을 클릭하였을 때
+                        let imgId = document.querySelector(`#img${i}`).getAttribute('data-value')
+                        fetch(`https://api.themoviedb.org/3/movie/${imgId}?api_key=${API}&language=ko`)
+                            .then(response=>response.json())
+                            .then(data=>{
+                                console.log(`Title : ${data.title}`)
+                                console.log(`${data.overview}`)
+                            })
+                        
                         $.ajax({
                             type:'post',   //post 방식으로 전송
                             url:'/test',   //데이터를 주고받을 파일 주소
